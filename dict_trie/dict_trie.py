@@ -1,20 +1,20 @@
 import sys
 import pandas as pd
 import csv
-
+import os
 if sys.version_info.major < 3:
     from itertools import imap as map
 
 
 chars_dict ={}
-
-with open('../assets/chars.csv') as csv_file:
+path =  os.path.abspath(os.getcwd())
+with open(path+'/assets/chars.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     line_count = 0
     for row in csv_reader:
         chars_dict[row[1]] = int(row[0])
 
-df = pd.read_csv('../assets/alphabet.csv')
+df = pd.read_csv(path+'/assets/alphabet.csv')
 
 
 def subs_chars_costs(char_1: str, char_2: str):
