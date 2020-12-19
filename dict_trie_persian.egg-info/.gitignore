@@ -1,0 +1,5 @@
+# Do not put data file in git sources
+*
+
+# But not these files...
+!.gitignore
