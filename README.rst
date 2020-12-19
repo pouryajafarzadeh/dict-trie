@@ -11,3 +11,5 @@ In order to use the package, you can use the .whl file in the `Linke <https://dr
 
   trie = Trie(['جعفرزاده','جعفرذاده','کیائی','کیايي'])
   
+
+I name the package Khayyam, to pay tribute to the great scientist and poet of Iran, Hakim Omar Khayyam.
