@@ -8,6 +8,7 @@ if sys.version_info.major < 3:
 
 chars_dict ={}
 path =  os.path.abspath(os.getcwd())
+digits = {'0','1','2','3','4','5','6','7','8','9','۱','۲','۳','۴','۵','۶','۷','۸','۹','۰' }
 with open(path+'/assets/chars.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     line_count = 0
@@ -18,7 +19,14 @@ df = pd.read_csv(path+'/assets/alphabet.csv')
 
 
 def subs_chars_costs(char_1: str, char_2: str):
-    return df.loc[chars_dict[char_2]][chars_dict[char_1]]
+    if char_1 in digits or char_2 in digits:
+        return 0 if char_1 == char_2 else 5 
+        
+        
+    if char_1 in chars_dict and char_2 in chars_dict:
+       return df.loc[chars_dict[char_2]][chars_dict[char_1]]    
+    
+    else: return 1.2
 
 
 def _add(root, word, count):
@@ -183,7 +191,13 @@ def _levenshtein(path, node, word, distance, cigar):
         car, cdr = word[0], word[1:]
 
     # Deletion.
-    for result in _levenshtein(path, node, cdr, distance - 1, cigar + 'D'):
+    # print ('in delete:',car)
+    if car in digits:
+        DC = 5
+    else:
+        DC = 1
+
+    for result in _levenshtein(path, node, cdr, distance - DC, cigar + 'D'):
         yield result
 
     for char in node:
@@ -201,8 +215,12 @@ def _levenshtein(path, node, word, distance, cigar):
                         cigar + operation):
                     yield result
             # Insertion.
+            if char in digits or car in digits:
+                IC = 5
+            else:
+                IC = 1
             for result in _levenshtein(
-                    path + char, node[char], word, distance - 1, cigar + 'I'):
+                    path + char, node[char], word, distance - IC, cigar + 'I'):
                 yield result
 
 
